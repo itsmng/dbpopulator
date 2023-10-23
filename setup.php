@@ -30,6 +30,7 @@
  define('DBPOPULATOR_VERSION', '1.0');
  define('DBPOPULATOR_AUTHOR', 'Minzord,AntoineLemarchand');
  define('DBPOPULATOR_HOMEPAGE', 'https://github.com/minzords/Itsmng_Plugin-dbpopulator');
+ define('DBPOPULATOR_DIR', GLPI_ROOT . "/plugins/dbpopulator/");
 
 
 /**
@@ -63,6 +64,11 @@ function plugin_version_dbpopulator(): array {
 function plugin_dbpopulator_check_prerequisites(): bool {
     if (version_compare(ITSM_VERSION, '1.0', 'lt')) {
         echo "This plugin requires ITSM >= 1.0";
+        return false;
+    }
+    // Check if autoload and vendors plugin exists
+    if (!file_exists(DBPOPULATOR_DIR . "vendor/autoload.php")) {
+        echo "Please install vendor dependencies with composer install";
         return false;
     }
     return true;
